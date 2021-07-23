@@ -1,6 +1,7 @@
 import yaml
 
 
+# TODO: store GQL queries in YAML?
 class Config:
     endpoint = None
     config = None
