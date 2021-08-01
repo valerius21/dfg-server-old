@@ -1,10 +1,9 @@
 import numpy as np
 
+from db.db import DB
 from image.StudyImage import StudyImage
 
-
-def add(a: int, b: int) -> int:
-    return a + b
+db = DB()
 
 
 def private_distribution(sample_size=100) -> [int]:
@@ -20,5 +19,6 @@ def private_distribution(sample_size=100) -> [int]:
     return dist
 
 
-def get_all_image_structs(uid: str, sample_size=100) -> [StudyImage]:
-    return [StudyImage(uid, v == 1, k + 1) for k, v in enumerate(private_distribution(sample_size))]
+def get_all_image_structs(uid: str, sample_size=100) -> [str]:
+    imgs = [StudyImage(uid, bool(v == 1), db) for v in private_distribution(sample_size)]
+    return [i.to_dict() for i in imgs]

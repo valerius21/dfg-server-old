@@ -4,7 +4,7 @@ from graphql import DocumentNode
 from numpy.random import default_rng
 
 from config.Config import Config
-from queries import *
+from .queries import *
 
 cfg = Config()
 rng = default_rng()
