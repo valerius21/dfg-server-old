@@ -12,10 +12,10 @@ class Config:
 
     def __init__(self):
         with open("config.yml", "r", encoding='utf-8') as cfg:
-            self.config = yaml.load(cfg, Loader=yaml.FullLoader)
+            Config.config = yaml.load(cfg, Loader=yaml.FullLoader)
 
-        self.endpoint = self.config['graphql_endpoint']
-        self.study_size = self.config['study_size']
-        self.private_image_part = self.config['private_image_part']
-        self.accumulate_results = self.config['accumulate_results']
-        self.accumulation_size = self.config['accumulation_size']
+        Config.endpoint = Config.config['graphql_endpoint']
+        Config.study_size = Config.config['study_size']
+        Config.private_image_part = Config.config['private_image_part']
+        Config.accumulate_results = Config.config['accumulate_results']
+        Config.accumulation_size = Config.config['accumulation_size']
