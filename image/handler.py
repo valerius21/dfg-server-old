@@ -21,5 +21,5 @@ def private_distribution(sample_size=100) -> [int]:
 
 def get_all_image_structs(uid: str, sample_size=100) -> [str]:
     # TODO: make comprehension async
-    imgs = [StudyImage(uid, bool(v == 1), db) for v in private_distribution(sample_size)]
-    return [i.to_dict() for i in imgs]
+    images = [StudyImage(uid, bool(v == 1), db) for v in private_distribution(sample_size)]
+    return [i.to_dict() for i in images]

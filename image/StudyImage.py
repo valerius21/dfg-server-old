@@ -1,3 +1,6 @@
+from config.Config import Config
+
+
 class StudyImage:
     uid = None
     is_private = False
@@ -16,10 +19,10 @@ class StudyImage:
 
         if self.is_private:
             self.image = self.db_client.random_private_image()
+            self.image_url = f"{Config.image_server_private}/{self.image['filename']}"
         else:
             self.image = self.db_client.random_public_image()
-
-        self.image_url = self.image['destination']
+            self.image_url = f"{Config.image_server_public}/{self.image['filename']}"
 
     def __repr__(self):
         return f"UID: {self.uid}\tINDEX: {self.index}\tPRIVATE: {self.is_private}\tIMG:{self.image}"
