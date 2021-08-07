@@ -33,7 +33,6 @@ def public_image_by_index():
     query = '''
         query _PublicPhotosCount($_eq: bigint) {
           flickr_public(where: {id: {_eq: $_eq}}) {
-            filename
             destination
             id
             source
@@ -49,7 +48,6 @@ def private_image_by_index():
     query = '''
         query _PrivatePhotosCount($_eq: bigint) {
           flickr_private(where: {id: {_eq: $_eq}}) {
-            filename
             destination
             id
             source
@@ -65,7 +63,6 @@ def private_priority_image_by_index():
     query = '''
             query _PrivatePriority($_eq: bigint, $_lte: Int = 40) {
               flickr_private(where: {submissions: {_gte: 1, _lte: $_lte}, id: {_eq: $_eq}}) {
-                filename
                 destination
                 id
                 source
@@ -81,7 +78,6 @@ def public_priority_image_by_index():
     query = '''
             query _PublicPriority($_eq: bigint, $_lte: Int = 40) {
               flickr_public(where: {submissions: {_gte: 1, _lte: $_lte}, id: {_eq: $_eq}}) {
-                filename
                 destination
                 id
                 source
