@@ -1,7 +1,7 @@
 import numpy as np
 
-from db.db import DB
-from image.StudyImage import StudyImage
+from dfg_server.db.db import DB
+from dfg_server.image.StudyImage import StudyImage
 
 db = DB()
 

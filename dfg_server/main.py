@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from config.Config import Config
+from config.config import Config
 from image.handler import get_all_image_structs
 
 app = FastAPI()

@@ -1,6 +1,6 @@
 import unittest
 
-from image.handler import private_distribution, get_all_image_structs
+from dfg_server.image.handler import private_distribution, get_all_image_structs
 
 size = 100
 half_size = int(size / 2)

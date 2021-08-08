@@ -1,6 +1,6 @@
 import unittest
 
-from db import DB
+from dfg_server.db.db import DB
 
 
 class MyTestCase(unittest.TestCase):

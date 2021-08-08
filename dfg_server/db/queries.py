@@ -1,9 +1,6 @@
-from gql import gql
-
-
 def count_private():
     """count all private images in DB"""
-    query = '''query _PrivatePhotosCount {
+    return '''query _PrivatePhotosCount {
           flickr_private_aggregate {
             aggregate {
               count
@@ -11,12 +8,11 @@ def count_private():
           }
         }
     '''
-    return gql(query)
 
 
 def count_public():
     """count all public images in DB"""
-    query = '''
+    return '''
     query _PublicPhotosCount {
           flickr_public_aggregate {
             aggregate {
@@ -25,12 +21,11 @@ def count_public():
           }
         }
     '''
-    return gql(query)
 
 
 def public_image_by_index():
     """get a public image by ID"""
-    query = '''
+    return '''
         query _PublicPhotosCount($_eq: bigint) {
           flickr_public(where: {id: {_eq: $_eq}}) {
             destination
@@ -40,12 +35,10 @@ def public_image_by_index():
         }
     '''
 
-    return gql(query)
-
 
 def private_image_by_index():
     """get a private image by ID"""
-    query = '''
+    return '''
         query _PrivatePhotosCount($_eq: bigint) {
           flickr_private(where: {id: {_eq: $_eq}}) {
             destination
@@ -55,12 +48,10 @@ def private_image_by_index():
         }
     '''
 
-    return gql(query)
-
 
 def private_priority_image_by_index():
     """get a private image by ID with 1 <= n <= 40 submissions"""
-    query = '''
+    return '''
             query _PrivatePriority($_eq: bigint, $_lte: Int = 40) {
               flickr_private(where: {submissions: {_gte: 1, _lte: $_lte}, id: {_eq: $_eq}}) {
                 destination
@@ -70,12 +61,11 @@ def private_priority_image_by_index():
               }
             }
         '''
-    return gql(query)
 
 
 def public_priority_image_by_index():
     """get a public image by ID with 1 <= n <= 40 submissions"""
-    query = '''
+    return '''
             query _PublicPriority($_eq: bigint, $_lte: Int = 40) {
               flickr_public(where: {submissions: {_gte: 1, _lte: $_lte}, id: {_eq: $_eq}}) {
                 destination
@@ -85,4 +75,3 @@ def public_priority_image_by_index():
               }
             }
         '''
-    return gql(query)
