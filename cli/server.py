@@ -1,7 +1,8 @@
+import uvicorn
 from fastapi import FastAPI
 
-from config.config import Config
-from image.handler import get_all_image_structs
+from dfg_server.config.config import Config
+from dfg_server.image.handler import get_all_image_structs
 
 app = FastAPI()
 
@@ -14,4 +15,6 @@ def get_image_set_for_uid(uid: str):
     res = {'images': images}
     return res
 
-# uvicorn main:app --reload
+
+if __name__ == '__main__':
+    uvicorn.run("server:app", reload=True)

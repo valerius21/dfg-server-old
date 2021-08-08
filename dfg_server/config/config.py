@@ -1,3 +1,5 @@
+import os
+
 import yaml
 
 
@@ -13,7 +15,7 @@ class Config:
     image_server_private = None
 
     def __init__(self):
-        with open("config.yml", "r", encoding='utf-8') as cfg:
+        with open(os.environ.get("DFG_CONFIG"), "r", encoding='utf-8') as cfg:
             Config.config = yaml.load(cfg, Loader=yaml.FullLoader)
 
         Config.endpoint = Config.config['graphql_endpoint']
