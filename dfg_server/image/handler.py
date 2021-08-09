@@ -7,7 +7,8 @@ from dfg_server.image.StudyImage import StudyImage
 db = DB()
 
 
-def private_distribution(sample_size=100) -> [int]:
+def _private_distribution(sample_size=100) -> [int]:
+    """create a distribution for the study size regarding the privacy aspect"""
     if sample_size % 2 == 0:
         n = int(sample_size / 2)
         m = n
@@ -21,9 +22,12 @@ def private_distribution(sample_size=100) -> [int]:
 
 
 def get_all_image_structs(uid: str, sample_size=100) -> [str]:
-    images = [StudyImage(uid, bool(v == 1), db) for v in private_distribution(sample_size)]
+    """generates all images"""
+    images = [StudyImage(uid, bool(v == 1), db) for v in _private_distribution(sample_size)]
     return [i.to_dict() for i in images]
 
 
 def add_submission(submission: Submission) -> dict:
+    """validate and insert the form submission"""
+    # TODO: validate entries
     return db.insert_submission(submission)

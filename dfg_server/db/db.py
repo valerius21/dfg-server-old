@@ -11,9 +11,8 @@ cfg = Config()
 rng = default_rng()
 
 
-# TODO: verify if image is available (Status 200)
-
 class DB:
+    """DB interaction instance"""
     transport = None
     client = None
 

@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class Submission(BaseModel):
-    """Submission from the frontend"""
+    """Submission Model from the frontend"""
     sensitivity: str
     is_private: bool
     photo_id: int

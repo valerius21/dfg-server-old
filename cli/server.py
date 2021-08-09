@@ -14,7 +14,6 @@ app.add_middleware(CORSMiddleware, allow_origins=['*'])
 @app.get("/images/all/{uid}")
 def get_image_set_for_uid(uid: str):
     """Get all initial images with a size of 100, preferably 40 submissions per image 50% private images."""
-    # TODO: make async
     images = get_all_image_structs(uid, Config.study_size)
     res = {'images': images}
     return res
@@ -22,7 +21,7 @@ def get_image_set_for_uid(uid: str):
 
 @app.post("/submit")
 def submit_image_evaluation(submission: Submission):
-    """handle incoming form submissions"""
+    """handle incoming form submissions. returns the affected rows."""
     return add_submission(submission)
 
 

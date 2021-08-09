@@ -2,6 +2,7 @@ from dfg_server.config.config import Config
 
 
 class StudyImage:
+    """Study Image representation"""
     uid = None
     is_private = False
     i = 0
