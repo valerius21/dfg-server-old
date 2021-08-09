@@ -1,9 +1,13 @@
+from dfg_server.config.config import Config
+
+
 class StudyImage:
     uid = None
     is_private = False
     i = 0
     index = None
-    image_url = ""
+    image_url: str = ""
+    gwdg_url: str = ""
     image = None
     db_client = None
 
@@ -13,15 +17,18 @@ class StudyImage:
         StudyImage.i += 1
         self.index = StudyImage.i
         self.db_client = db_client
+        image_server = ""
 
         if self.is_private:
             self.image = self.db_client.random_private_image()
-            # self.image_url = f"{Config.image_server_private}/{self.image['filename']}"
+            image_server = Config.image_server_private
         else:
             self.image = self.db_client.random_public_image()
-            # self.image_url = f"{Config.image_server_public}/{self.image['filename']}"
+            image_server = Config.image_server_public
 
-        self.image_url = self.image
+        self.image_url = self.image['destination']
+        self.filename = self.image_url.split("/")[-1]
+        self.gwdg_url = f'{image_server}/{self.filename}'
 
     def __repr__(self):
         return f"UID: {self.uid}\tINDEX: {self.index}\tPRIVATE: {self.is_private}\tIMG:{self.image}"
@@ -33,7 +40,9 @@ class StudyImage:
                 'page_index': o.index,
                 'is_private': o.is_private,
                 'image_url': o.image_url,
-                'image_id': o.image['id']
+                'image_id': o.image['id'],
+                'filename': o.filename,
+                'gwdg_url': o.gwdg_url
             }
             return dict
         else:
