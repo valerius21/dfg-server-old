@@ -60,8 +60,6 @@ class DB:
         """rng"""
         return rng.integers(low, high=high, size=1)[0]
 
-    # TODO: post requests from frontend
-
     def insert_submission(self, submission: Submission) -> dict:
         """insert form submission into db"""
         mutation = gql(insert_photo)

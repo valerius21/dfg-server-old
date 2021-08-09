@@ -30,4 +30,5 @@ def get_all_image_structs(uid: str, sample_size=100) -> [str]:
 def add_submission(submission: Submission) -> dict:
     """validate and insert the form submission"""
     # TODO: validate entries
+    # TODO: query image ID and increment submission count
     return db.insert_submission(submission)
