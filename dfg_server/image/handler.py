@@ -1,6 +1,7 @@
 import numpy as np
 
 from dfg_server.db.db import DB
+from dfg_server.db.submission import Submission
 from dfg_server.image.StudyImage import StudyImage
 
 db = DB()
@@ -20,6 +21,9 @@ def private_distribution(sample_size=100) -> [int]:
 
 
 def get_all_image_structs(uid: str, sample_size=100) -> [str]:
-    # TODO: make comprehension async
     images = [StudyImage(uid, bool(v == 1), db) for v in private_distribution(sample_size)]
     return [i.to_dict() for i in images]
+
+
+def add_submission(submission: Submission) -> dict:
+    return db.insert_submission(submission)

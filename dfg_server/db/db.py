@@ -3,7 +3,9 @@ from gql.transport.requests import RequestsHTTPTransport
 from numpy.random import default_rng
 
 from dfg_server.config.config import Config
+from dfg_server.db.mutations import insert_photo
 from dfg_server.db.queries import *
+from dfg_server.db.submission import Submission
 
 cfg = Config()
 rng = default_rng()
@@ -60,6 +62,23 @@ class DB:
         return rng.integers(low, high=high, size=1)[0]
 
     # TODO: post requests from frontend
+
+    def insert_submission(self, submission: Submission) -> dict:
+        """insert form submission into db"""
+        mutation = gql(insert_photo)
+        values = {
+            "acquaintance": submission.acquaintance,
+            "colleagues": submission.colleagues,
+            "family": submission.family,
+            "friends": submission.friends,
+            "everybody": submission.everybody,
+            "nobody": submission.nobody,
+            "sensitivity": submission.sensitivity,
+            "is_private": submission.is_private,
+            "photo_id": submission.photo_id,
+            "uid": submission.uid
+        }
+        return self.client.execute(mutation, variable_values=values)
 
 
 if __name__ == '__main__':
