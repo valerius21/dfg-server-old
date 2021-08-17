@@ -58,3 +58,19 @@ public_priority_image_by_index = '''
               }
             }
         '''
+
+private_submissions_photo_ids = '''
+        query PrivateSubmissions {
+          results {
+            photo_id
+          }
+        }
+        '''
+
+public_submissions_photo_ids = '''
+        query PublicSubmissions {
+          results(order_by: {photo_id: asc}, where: {is_private: {_eq: false}}) {
+            photo_id
+          }
+        }
+        '''

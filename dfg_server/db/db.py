@@ -1,5 +1,8 @@
+from collections import Counter
+
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
+from graphql import DocumentNode
 from numpy.random import default_rng
 
 from dfg_server.config.config import Config
@@ -13,16 +16,12 @@ rng = default_rng()
 
 class DB:
     """DB interaction instance"""
-    transport = None
-    client = None
+    transport = RequestsHTTPTransport(url=cfg.graphql_endpoint)
+    client = Client(transport=transport, fetch_schema_from_transport=True)
     count = {
         'public': -1,
         'private': -1
     }
-
-    def __init__(self):
-        DB.transport = RequestsHTTPTransport(url=cfg.endpoint)
-        DB.client = Client(transport=DB.transport, fetch_schema_from_transport=True)
 
     @staticmethod
     def _get_count(visibility: str) -> int:
@@ -101,3 +100,30 @@ class DB:
             "uid": submission.uid
         }
         return DB.client.execute(mutation, variable_values=values)
+
+    @staticmethod
+    def _filter_for_submission_ids(query: DocumentNode) -> [int]:
+        """filters for all submissions under the accumulation size @Config.accumulation_size"""
+        acc = Config.accumulation_size + 1
+        response = DB.client.execute(query)
+        # Count occurrences of every ID
+        elements = Counter([submission['photo_id'] for submission in response['results']])
+        # Filter for acc size
+        elements = filter(lambda x: x[1] < acc,
+                          [(submissions_by_count, elements[submissions_by_count]) for submissions_by_count in elements])
+        # return ID of filtered elements
+        return [submission[0] for submission in elements]
+
+    @staticmethod
+    def get_public_submissions() -> [int]:
+        """:returns IDs of preferred pictures due to accumulation size regarding the public set"""
+        return DB._filter_for_submission_ids(gql(public_submissions_photo_ids))
+
+    @staticmethod
+    def get_private_submissions() -> [int]:
+        """:returns IDs of preferred pictures due to accumulation size regarding the private set"""
+        return DB._filter_for_submission_ids(gql(private_submissions_photo_ids))
+
+
+if __name__ == '__main__':
+    print(DB.get_private_submissions())

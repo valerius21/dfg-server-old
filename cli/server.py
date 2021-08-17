@@ -31,6 +31,5 @@ def index():
     """redirect to /docs. /redoc is also an option"""
     return RedirectResponse("/docs")
 
-
 if __name__ == '__main__':
     uvicorn.run("server:app", reload=True)

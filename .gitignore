@@ -136,4 +136,4 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-etc/prod_config.yml
+./etc/prod_config.yml

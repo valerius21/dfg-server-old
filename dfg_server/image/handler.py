@@ -4,7 +4,7 @@ from dfg_server.db.db import DB
 from dfg_server.db.submission import Submission
 from dfg_server.image.StudyImage import StudyImage
 
-db = DB()
+db = DB
 
 
 def _private_distribution(sample_size=100) -> [int]:
