@@ -1,6 +1,6 @@
-graphql_endpoint: "https://c102-226.cloud.gwdg.de/v1/graphql"
-image_server_private: "https://c102-251.cloud.gwdg.de/private"
-image_server_public: "https://c102-251.cloud.gwdg.de/public"
+graphql_endpoint: "https://<URL>/v1/graphql"
+image_server_private: "https://<URL>/private"
+image_server_public: "https://<URL>/public"
 study_size: 100 # No. of images to be annotated
 private_image_part: 50 # Part of private images
 accumulate_results: true # Prefer previously annotated images

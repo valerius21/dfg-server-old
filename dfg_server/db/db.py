@@ -101,13 +101,3 @@ class DB:
             "uid": submission.uid
         }
         return DB.client.execute(mutation, variable_values=values)
-
-
-if __name__ == '__main__':
-    db = DB()
-    print('public image by id', db.public_image_by_id(15))
-    print('private image by id', db.private_image_by_id(66))
-    print('private count', db.private_count())
-    print('public count', db.public_count())
-    print('random private', db.random_private_image())
-    print('random public', db.random_public_image())
