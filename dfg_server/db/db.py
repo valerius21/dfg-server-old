@@ -15,43 +15,67 @@ class DB:
     """DB interaction instance"""
     transport = None
     client = None
+    count = {
+        'public': -1,
+        'private': -1
+    }
 
     def __init__(self):
         DB.transport = RequestsHTTPTransport(url=cfg.endpoint)
-        self.client = Client(transport=DB.transport, fetch_schema_from_transport=True)
+        DB.client = Client(transport=DB.transport, fetch_schema_from_transport=True)
 
-    def private_count(self) -> int:
+    @staticmethod
+    def _get_count(visibility: str) -> int:
+        """get photo count from a certain visibility"""
+        if visibility == 'private':
+            queue = gql(count_private)
+        else:
+            queue = gql(count_public)
+        result = DB.client.execute(queue)
+        count: int = int(result[f'flickr_{visibility}_aggregate']['aggregate']['count'])
+        DB.count[visibility] = count
+        return count
+
+    @staticmethod
+    def private_count() -> int:
         """count all the private photos"""
-        result = self.client.execute(gql(count_private))
-        return result['flickr_private_aggregate']['aggregate']['count']
+        if DB.count['private'] == -1:
+            return DB._get_count('private')
+        return DB.count['private']
 
-    def public_count(self) -> int:
+    @staticmethod
+    def public_count() -> int:
         """count all the public photos"""
-        result = self.client.execute(gql(count_public))
-        return result['flickr_public_aggregate']['aggregate']['count']
+        if DB.count['public'] == -1:
+            return DB._get_count('public')
+        return DB.count['public']
 
-    def random_public_image(self) -> dict:
+    @staticmethod
+    def random_public_image() -> dict:
         """count all the private photos"""
         # TODO: fix non-existent IDs
-        high = self.public_count()
+        high = DB.public_count()
         random_id = rng.integers(low=1, high=high, size=1)[0]
-        return self.public_image_by_id(int(random_id))
+        return DB.public_image_by_id(int(random_id))
 
-    def random_private_image(self) -> dict:
+    @staticmethod
+    def random_private_image() -> dict:
         """count all the private photos"""
-        high = self.private_count()
+        high = DB.private_count()
         random_id = rng.integers(low=1, high=high, size=1)[0]
-        return self.private_image_by_id(int(random_id))
+        return DB.private_image_by_id(int(random_id))
 
-    def public_image_by_id(self, img_id: int) -> dict:
+    @staticmethod
+    def public_image_by_id(img_id: int) -> dict:
         """get image by id"""
-        doc = self.client.execute(gql(public_image_by_index), variable_values={"_eq": img_id})
+        doc = DB.client.execute(gql(public_image_by_index), variable_values={"_eq": img_id})
         doc = doc['flickr_public'][0]
         return doc
 
-    def private_image_by_id(self, img_id: int) -> dict:
+    @staticmethod
+    def private_image_by_id(img_id: int) -> dict:
         """get image by id"""
-        doc = self.client.execute(gql(private_image_by_index), variable_values={"_eq": img_id})
+        doc = DB.client.execute(gql(private_image_by_index), variable_values={"_eq": img_id})
         doc = doc['flickr_private'][0]
         return doc
 
@@ -60,7 +84,8 @@ class DB:
         """rng"""
         return rng.integers(low, high=high, size=1)[0]
 
-    def insert_submission(self, submission: Submission) -> dict:
+    @staticmethod
+    def insert_submission(submission: Submission) -> dict:
         """insert form submission into db"""
         mutation = gql(insert_photo)
         values = {
@@ -75,7 +100,7 @@ class DB:
             "photo_id": submission.photo_id,
             "uid": submission.uid
         }
-        return self.client.execute(mutation, variable_values=values)
+        return DB.client.execute(mutation, variable_values=values)
 
 
 if __name__ == '__main__':

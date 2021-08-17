@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 
 from dfg_server.config.config import Config
 from dfg_server.db.submission import Submission
@@ -11,7 +12,7 @@ app = FastAPI()
 app.add_middleware(CORSMiddleware, allow_origins=['*'])
 
 
-@app.get("/images/all/{uid}")
+@app.get("/api/images/{uid}")
 def get_image_set_for_uid(uid: str):
     """Get all initial images with a size of 100, preferably 40 submissions per image 50% private images."""
     images = get_all_image_structs(uid, Config.study_size)
@@ -19,10 +20,16 @@ def get_image_set_for_uid(uid: str):
     return res
 
 
-@app.post("/submit")
+@app.post("/api/submit")
 def submit_image_evaluation(submission: Submission):
     """handle incoming form submissions. returns the affected rows."""
     return add_submission(submission)
+
+
+@app.get("/")
+def index():
+    """redirect to /docs. /redoc is also an option"""
+    return RedirectResponse("/docs")
 
 
 if __name__ == '__main__':

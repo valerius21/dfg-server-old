@@ -16,9 +16,11 @@ class StudyImage:
         self.uid = uid
         self.is_private = is_private
         StudyImage.i += 1
-        self.index = StudyImage.i
+        if StudyImage.i % 100 == 0:
+            self.index = 100
+        else:
+            self.index = StudyImage.i % 100
         self.db_client = db_client
-        image_server = ""
 
         if self.is_private:
             self.image = self.db_client.random_private_image()
