@@ -12,21 +12,19 @@ class StudyImage:
     image = None
     db_client = None
 
-    def __init__(self, uid: str, is_private: bool, db_client):
+    def __init__(self, uid: str, is_private: bool, image: dict):
         self.uid = uid
         self.is_private = is_private
+        self.image = image
         StudyImage.i += 1
         if StudyImage.i % 100 == 0:
             self.index = 100
         else:
             self.index = StudyImage.i % 100
-        self.db_client = db_client
 
         if self.is_private:
-            self.image = self.db_client.random_private_image()
             image_server = Config.image_server_private
         else:
-            self.image = self.db_client.random_public_image()
             image_server = Config.image_server_public
 
         self.image_url = self.image['destination']
