@@ -9,7 +9,20 @@ from dfg_server.image.handler import get_all_image_structs, add_submission
 
 app = FastAPI()
 
-app.add_middleware(CORSMiddleware, allow_origins=['*'])
+app.add_middleware(CORSMiddleware,
+                   allow_origins=[
+                       'http://localhost:3000',
+                       'https://localhost:3000',
+                       'https://localhost:443',
+                       'https://localhost',
+                       'http://localhost:80',
+                       'http://localhost',
+                       '*'
+                   ],
+                   allow_methods=['*'],
+                   allow_headers=['*'],
+                   allow_credentials=True
+                   )
 
 
 @app.get("/api/images/{uid}")

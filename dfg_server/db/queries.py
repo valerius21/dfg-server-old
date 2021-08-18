@@ -61,7 +61,7 @@ public_priority_image_by_index = '''
 
 private_submissions_photo_ids = '''
         query PrivateSubmissions {
-          results {
+          results(order_by: {photo_id: asc}, where: {is_private: {_eq: true}}) {
             photo_id
           }
         }
