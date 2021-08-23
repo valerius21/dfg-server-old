@@ -2,7 +2,7 @@ import numpy as np
 
 from dfg_server.config.config import Config
 from dfg_server.db.db import DB
-from dfg_server.db.submission import Submission
+from dfg_server.db.submission import Submission, SubmissionContradictionError
 from dfg_server.image.StudyImage import StudyImage
 
 
@@ -44,6 +44,11 @@ def get_all_image_structs(uid: str, sample_size=100):
 
 def add_submission(submission: Submission) -> dict:
     """validate and insert the form submission"""
-    # TODO: validate entries
-    # TODO: query image ID and increment submission count
+    try:
+        submission.check()
+    except SubmissionContradictionError as e:
+        return {
+            'error': e
+        }
+
     return DB.insert_submission(submission)
