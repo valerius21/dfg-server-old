@@ -62,7 +62,7 @@ def custom_openapi():
         routes=app.routes,
     )
     openapi_schema["info"]["x-logo"] = {
-        "url": "https://c102-251.cloud.gwdg.de/assets/logo.png"
+        "url": f"{Config.image_server_public.split('/public')[0]}/assets/logo.png"
     }
     app.openapi_schema = openapi_schema
     return app.openapi_schema
