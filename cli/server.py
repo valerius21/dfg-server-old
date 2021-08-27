@@ -1,13 +1,13 @@
 import os
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import RedirectResponse
 
 from dfg_server.config.config import Config
-from dfg_server.db.submission import Submission
+from dfg_server.db.submission import Submission, SubmissionContradictionError
 from dfg_server.routes.image import get_image_set_for_uid_accumulated, get_image_set_for_uid
 from dfg_server.routes.submit import submit_image_evaluation_request
 
@@ -44,7 +44,10 @@ def image_set_for_uid_not_accumulated(uid: str):
 @app.post("/api/submit")
 def submit_image_evaluation(submission: Submission):
     """handle incoming form submissions. returns the affected rows."""
-    return submit_image_evaluation_request(submission)
+    try:
+        return submit_image_evaluation_request(submission)
+    except SubmissionContradictionError:
+        raise HTTPException(status_code=400, detail="Verification failed! (Illegal demography selection)")
 
 
 @app.get("/")
