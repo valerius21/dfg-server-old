@@ -1,6 +1,5 @@
 import numpy as np
 
-from dfg_server.config.config import Config
 from dfg_server.db.db import DB
 from dfg_server.db.submission import Submission, SubmissionContradictionError
 from dfg_server.image.StudyImage import StudyImage
@@ -20,10 +19,9 @@ def _private_distribution(sample_size=100) -> [bool]:
     return [bool(n == 1) for n in dist]
 
 
-def get_all_image_structs(uid: str, sample_size=100):
+def get_all_image_structs(uid: str, sample_size=100, is_accumulating=True):
     """generates all images"""
     images = list()
-    is_accumulating = Config.accumulate_results
     private_ids = DB.get_private_submissions()
     public_ids = DB.get_public_submissions()
     for is_private in _private_distribution(sample_size):

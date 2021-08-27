@@ -1,5 +1,7 @@
 import yaml
+
 from dfg_server.definitions import CONFIG_PATH
+
 
 class Config:
     """Parsing the config.yml"""
@@ -20,7 +22,6 @@ class Config:
         Config.graphql_endpoint = Config.config['graphql_endpoint']
         Config.study_size = Config.config['study_size']
         Config.private_image_part = Config.config['private_image_part']
-        Config.accumulate_results = Config.config['accumulate_results']
         Config.accumulation_size = Config.config['accumulation_size']
         Config.image_server_private = Config.config['image_server_private']
         Config.image_server_public = Config.config['image_server_public']
