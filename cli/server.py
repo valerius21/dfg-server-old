@@ -3,6 +3,7 @@ import os
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.utils import get_openapi
 from fastapi.responses import RedirectResponse
 
 from dfg_server.config.config import Config
@@ -35,7 +36,7 @@ def image_set_for_uid_accumulated(uid: str):
 
 
 @app.get("/api/images/not-acc/{uid}")
-def image_set_for_uid_accumulated(uid: str):
+def image_set_for_uid_not_accumulated(uid: str):
     """Get all initial images with a size of 100, with 50% private images."""
     return get_image_set_for_uid(uid)
 
@@ -51,6 +52,23 @@ def index():
     """redirect to /docs. /redoc is also an option"""
     return RedirectResponse("/docs")
 
+
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="DFG API",
+        version="0.0.2",
+        routes=app.routes,
+    )
+    openapi_schema["info"]["x-logo"] = {
+        "url": "https://c102-251.cloud.gwdg.de/assets/logo.png"
+    }
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
 
 if __name__ == '__main__':
     is_prod = os.environ['DFG_PRODUCTION']
