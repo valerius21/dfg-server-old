@@ -1,6 +1,10 @@
 # DFG API
 
+Currently, Sync Only!
+
 ## Configure
+
+provide a `/etc/config.yml` accordingly.
 
 ## Starting the instance
 
@@ -13,3 +17,9 @@ Start: `docker run --restart always --name api -d -p 80:8000 -v config.yml:/dfg_
 ### Python
 
 **[WIP]**
+
+### Planned
+
+- Async requests
+- Auth
+- CI/CD Pipeline
