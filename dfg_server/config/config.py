@@ -1,7 +1,5 @@
-import os
-
 import yaml
-
+from dfg_server.definitions import CONFIG_PATH
 
 class Config:
     """Parsing the config.yml"""
@@ -16,7 +14,7 @@ class Config:
     port = None
 
     def __init__(self):
-        with open(os.environ.get("DFG_CONFIG"), "r", encoding='utf-8') as cfg:
+        with open(CONFIG_PATH, "r", encoding='utf-8') as cfg:
             Config.config = yaml.load(cfg, Loader=yaml.FullLoader)
 
         Config.graphql_endpoint = Config.config['graphql_endpoint']

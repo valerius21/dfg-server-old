@@ -50,4 +50,4 @@ def index():
 
 if __name__ == '__main__':
     is_prod = os.environ['DFG_PRODUCTION']
-    uvicorn.run("server:app", reload=not is_prod, port=Config.port)
+    uvicorn.run("server:app", host='0.0.0.0', reload=not is_prod, port=Config.port)
