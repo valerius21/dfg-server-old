@@ -5,7 +5,7 @@ ROOT_DIR = os.path.join(DEFINITIONS_DIR, '..')
 
 
 def _get_config():
-    if os.environ['DFG_PRODUCTION']:
+    if not os.environ['DFG_PRODUCTION']:
         return os.path.join(os.environ['HOME'], '.dfg', 'config.yml')
     return os.path.join(ROOT_DIR, './etc/config.yml')
 
