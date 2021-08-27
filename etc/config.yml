@@ -5,3 +5,4 @@ study_size: 100 # No. of images to be annotated
 private_image_part: 50 # Part of private images
 accumulate_results: true # Prefer previously annotated images
 accumulation_size: 40 # How often a previously annotated image should be annotated
+port: 8000

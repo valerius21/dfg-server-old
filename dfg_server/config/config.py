@@ -13,6 +13,7 @@ class Config:
     accumulation_size = None
     image_server_public = None
     image_server_private = None
+    port = None
 
     def __init__(self):
         with open(os.environ.get("DFG_CONFIG"), "r", encoding='utf-8') as cfg:
@@ -25,3 +26,4 @@ class Config:
         Config.accumulation_size = Config.config['accumulation_size']
         Config.image_server_private = Config.config['image_server_private']
         Config.image_server_public = Config.config['image_server_public']
+        Config.port = Config.config['port']

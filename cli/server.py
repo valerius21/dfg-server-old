@@ -1,3 +1,6 @@
+import os
+import sys
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -46,4 +49,5 @@ def index():
 
 
 if __name__ == '__main__':
-    uvicorn.run("server:app", reload=True)
+    is_prod = os.environ['DFG_PRODUCTION']
+    uvicorn.run("server:app", reload=not is_prod, port=Config.port)
