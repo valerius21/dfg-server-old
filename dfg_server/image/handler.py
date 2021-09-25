@@ -20,7 +20,13 @@ def _private_distribution(sample_size=100) -> [bool]:
 
 
 def get_all_image_structs(uid: str, sample_size=100, is_accumulating=True):
-    """generates all images"""
+    """
+    get the images.
+
+    param uid: User ID
+    param sample_size: Number of images required
+    param is_accumulating: Prefer previously annotated images. See config.yml
+    """
     images = list()
     private_ids = DB.get_private_submissions()
     public_ids = DB.get_public_submissions()

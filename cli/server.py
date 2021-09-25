@@ -15,6 +15,7 @@ app = FastAPI()
 
 app.add_middleware(CORSMiddleware,
                    allow_origins=[
+                       'https://*.cloud.gwdg.de',
                        'http://localhost:3000',
                        'https://localhost:3000',
                        'https://localhost:443',
