@@ -75,5 +75,5 @@ def custom_openapi():
 app.openapi = custom_openapi
 
 if __name__ == '__main__':
-    is_prod = os.environ['DFG_PRODUCTION']
+    is_prod = True
     uvicorn.run("server:app", host='0.0.0.0', reload=not is_prod, port=Config.port)
